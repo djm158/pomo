@@ -1,0 +1,104 @@
+@keyframes modalFade {
+  from {
+    transform: translateY(50%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes modalFade {
+  from {
+    transform: translateY(-50%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal {
+  width: 500px;
+  background: white;
+  border: 1px solid #ccc;
+  opacity: 1;
+  box-shadow: -2rem 2rem 2rem rgba(0, 0, 0, 0.2);
+  transform: scale(1);
+  visibility: visible;
+  position: fixed;
+  top: calc(50% - 400px);
+  left: calc(50% - 300px);
+  height: 400px;
+  width: 600px;
+  z-index: 1050;
+  /* animation-name: modalFade;
+  animation-duration: 0.3s;
+  -webkit-animation-name: modalFade;
+  animation-fill-mode: both;
+  -webkit-animation-duration: 0.3s; */
+}
+
+.modal .header {
+  display: flex;
+  border-bottom: 1px solid #ccc;
+  align-items: center;
+}
+
+.modal .header svg {
+  height: 20px;
+  flex-shrink: 1;
+  padding-right: 20px;
+}
+
+.modal .header svg:hover {
+  cursor: pointer;
+}
+
+.modal .header h2 {
+  padding: 1rem;
+  margin: 0;
+  text-transform: capitalize;
+  flex-grow: 1;
+}
+
+.modal .content {
+  padding: 1rem;
+}
+
+.modal .actions {
+  background: #eee;
+  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+}
+
+.modal .actions button {
+  border: 0;
+  background: #1d3557;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  line-height: 1;
+  color: #fff;
+}
+
+.modal-bg {
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.4);
+  /* animation-name: fade;
+  animation-duration: 0.3s;
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 0.3s; */
+}

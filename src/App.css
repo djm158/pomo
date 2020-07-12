@@ -1,38 +1,186 @@
-.App {
-  text-align: center;
+* {
+  box-sizing: border-box;
+}
+:root {
+  --pomo-primary-color: #eb5c68;
+  --pomo-secondary-color: #f4a4ab;
+  --short-break-primary-color: #a8dadc;
+  --short-break-secondary-color: #c5e7e8;
+  --short-break-tertiary-color: #8aced0;
+  --long-break-primary-color: #457b9d;
+  --long-break-secondary-color: #71a2c1;
+  --long-break-tertiary-color: #5590b4;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+div {
+  color: #1d3557;
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.nav {
+  padding: 1rem;
+  height: 80px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.pomo {
+  background-color: var(--pomo-primary-color);
+}
+
+.sb {
+  background-color: var(--short-break-primary-color);
+}
+
+.lb {
+  background-color: var(--long-break-primary-color);
+}
+
+.app-container {
+  transition: background-color 0.2s ease-in;
+  height: 100vh;
+  overflow-y: hidden;
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.start {
+  width: 180px;
+  height: 60px;
+  border-radius: 4px;
+  border: none;
+  background-color: #1d3557;
+  color: white;
+  text-transform: uppercase;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.start:hover {
+  cursor: pointer;
+}
+
+.timer-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  border-radius: 4px;
+  width: 500px;
+  height: 320px;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  padding: 1.5rem;
+  transition: background-color 0.2s ease-in;
+}
+.timer-container.sb {
+  background-color: var(--short-break-secondary-color);
+}
+.timer-container.pomo {
+  background-color: var(--pomo-secondary-color);
+}
+.timer-container.lb {
+  background: var(--long-break-secondary-color);
 }
 
-.App-link {
-  color: #61dafb;
+.timer-tabs {
+  display: flex;
+  width: 75%;
+  justify-content: space-evenly;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.timer {
+  font-size: 8rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+.colon {
+  position: relative;
+  bottom: 10px;
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
+}
+
+.timer-tabs button {
+  background-color: transparent;
+  border: none;
+  font-size: 18px;
+  border-radius: 4px;
+  padding: 0.4rem;
+  transition: background-color 0.2s ease-in;
+}
+
+.timer-tabs button.selected.pomo {
+  background: #ef8089;
+}
+.timer-tabs button.selected.sb {
+  background: var(--short-break-tertiary-color);
+}
+.timer-tabs button.selected.lb {
+  background: var(--long-break-tertiary-color);
+}
+
+.timer-tabs button:active,
+.timer-tabs button:focus {
+  outline: none;
+  border: none;
+}
+
+.timer-tabs button:hover {
+  cursor: pointer;
+}
+
+.nav .btn {
+  text-decoration: none;
+  border: none;
+  padding: 10px 30px;
+  font-size: 16px;
+  color: #1d3557;
+  border-radius: 4px;
+  cursor: pointer;
+  outline: none;
+  transition: 0.2s all;
+  text-transform: capitalize;
+}
+
+.btn.sb {
+  background-color: var(--short-break-secondary-color);
+}
+.btn.lb {
+  background-color: var(--long-break-secondary-color);
+}
+.btn.pomo {
+  background-color: var(--pomo-secondary-color);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.modal-enter {
+  opacity: 0;
+  transform: scale(0.9);
+}
+.modal-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
+}
+.modal-exit {
+  opacity: 1;
+}
+.modal-exit-active {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 300ms, transform 300ms;
 }

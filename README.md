@@ -42,3 +42,17 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+
+## TODOS
+ * allow users to configure number of short breaks between long breaks
+ * show notifications when switching states
+ * read settings from local storage
+ * light/dark theme
+ * allow users to configure alert sounds
+ * allow users to configure volume
+ * refactor theming using styled components or theme ui, etc
+ * refactor css
+ * test more functionality
+ * set page title to time left so you can see it in the tab
+ * see if transition can be encapsulated in the modal
