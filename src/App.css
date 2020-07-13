@@ -30,18 +30,6 @@ div {
   height: 80px;
 }
 
-.pomo {
-  background-color: var(--pomo-primary-color);
-}
-
-.sb {
-  background-color: var(--short-break-primary-color);
-}
-
-.lb {
-  background-color: var(--long-break-primary-color);
-}
-
 .app-container {
   transition: background-color 0.2s ease-in;
   height: 100vh;
@@ -71,33 +59,6 @@ div {
   cursor: pointer;
 }
 
-.timer-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 4px;
-  width: 500px;
-  height: 320px;
-  justify-content: center;
-  padding: 1.5rem;
-  transition: background-color 0.2s ease-in;
-}
-.timer-container.sb {
-  background-color: var(--short-break-secondary-color);
-}
-.timer-container.pomo {
-  background-color: var(--pomo-secondary-color);
-}
-.timer-container.lb {
-  background: var(--long-break-secondary-color);
-}
-
-.timer-tabs {
-  display: flex;
-  width: 75%;
-  justify-content: space-evenly;
-}
-
 .timer {
   font-size: 8rem;
   margin-bottom: 1rem;
@@ -109,62 +70,6 @@ div {
   bottom: 10px;
   padding-left: 0.4rem;
   padding-right: 0.4rem;
-}
-
-.timer-tabs button {
-  background-color: transparent;
-  border: none;
-  font-size: 18px;
-  border-radius: 4px;
-  padding: 0.4rem;
-  transition: background-color 0.2s ease-in;
-}
-
-.timer-tabs button.selected.pomo {
-  background: #ef8089;
-}
-.timer-tabs button.selected.sb {
-  background: var(--short-break-tertiary-color);
-}
-.timer-tabs button.selected.lb {
-  background: var(--long-break-tertiary-color);
-}
-
-.timer-tabs button:active,
-.timer-tabs button:focus {
-  outline: none;
-  border: none;
-}
-
-.timer-tabs button:hover {
-  cursor: pointer;
-}
-
-.nav .btn {
-  text-decoration: none;
-  border: none;
-  padding: 10px 30px;
-  font-size: 16px;
-  color: #1d3557;
-  border-radius: 4px;
-  cursor: pointer;
-  outline: none;
-  transition: 0.2s all;
-  text-transform: capitalize;
-}
-
-.btn.sb {
-  background-color: var(--short-break-secondary-color);
-}
-.btn.lb {
-  background-color: var(--long-break-secondary-color);
-}
-.btn.pomo {
-  background-color: var(--pomo-secondary-color);
-}
-
-.btn:active {
-  transform: scale(0.98);
 }
 
 .modal-enter {
@@ -186,21 +91,15 @@ div {
 }
 
 @media (max-width: 768px) {
-  .timer-container {
-    width: 400px;
-  }
   .timer {
     font-size: 7rem;
-  }
-}
-
-@media (max-width: 400px) {
-  .timer-container {
-    width: 100%;
   }
   .timer-tabs {
     width: 100%;
   }
+}
+
+@media (max-width: 400px) {
   .timer {
     font-size: 7rem;
   }
