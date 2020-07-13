@@ -185,7 +185,7 @@ div {
   transition: opacity 300ms, transform 300ms;
 }
 
-@media(max-width: 768px) {
+@media (max-width: 768px) {
   .timer-container {
     width: 400px;
   }
@@ -194,9 +194,14 @@ div {
   }
 }
 
-@media(max-width: 400px) {
+@media (max-width: 400px) {
   .timer-container {
     width: 100%;
   }
-
+  .timer-tabs {
+    width: 100%;
+  }
+  .timer {
+    font-size: 7rem;
+  }
 }

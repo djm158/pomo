@@ -10,10 +10,10 @@ const DEFAULT_SHORT_BREAK_TIME = 5;
 const DEFAULT_LONG_BREAK_TIME = 15;
 const DEFAULT_POMO_TIME = 25;
 // DEBUG
-// const DEFAULT_POMO_TIME = 5;
-// const DEFAULT_SHORT_BREAK_TIME = 5;
-// const DEFAULT_LONG_BREAK_TIME = 5;
-const DEFAULT_BREAKS = 2; // 4 breaks
+// const DEFAULT_POMO_TIME = 0.1;
+// const DEFAULT_SHORT_BREAK_TIME = 0.1;
+// const DEFAULT_LONG_BREAK_TIME = 0.1;
+const DEFAULT_BREAKS = 4;
 
 enum PomodoroState {
   POMODORO = "pomodoro",
@@ -29,11 +29,11 @@ function App() {
   const [shortBreakTime, setShortBreakTime] = useState(
     DEFAULT_SHORT_BREAK_TIME
   );
+  const [numBreaks, setNumBreaks] = useState(DEFAULT_BREAKS);
   const [longBreakTime, setLongBreakTime] = useState(DEFAULT_LONG_BREAK_TIME);
   const [pomoState, setPomoState] = useState(PomodoroState.POMODORO);
-  const [breaks, setBreaks] = useState(0);
+  const [breaksUsed, setBreaksUsed] = useState(0);
   const [play] = useSound(beep);
-  // let intervalId = useRef(null)
 
   useEffect(() => {
     if (time === 3) {
@@ -44,33 +44,34 @@ function App() {
       interval = setInterval(() => setTime(time - 1), 1000);
     } else if (time === 0 && active) {
       if (pomoState === PomodoroState.SHORT_BREAK) {
-        if (breaks > DEFAULT_BREAKS) {
-          setPomoState(PomodoroState.LONG_BREAK);
-          setTime(longBreakTime * 60);
-          setBreaks(0);
-        } else {
-          setPomoState(PomodoroState.POMODORO);
-          setTime(pomoTime * 60);
-          setBreaks(breaks + 1);
-        }
+        setPomoState(PomodoroState.POMODORO);
+        setTime(pomoTime * 60);
+        setBreaksUsed(breaksUsed + 1);
       } else if (pomoState === PomodoroState.LONG_BREAK) {
         setPomoState(PomodoroState.POMODORO);
         setTime(pomoTime * 60);
       } else if (pomoState === PomodoroState.POMODORO) {
-        setPomoState(PomodoroState.SHORT_BREAK);
-        setTime(shortBreakTime * 60);
+        if (breaksUsed >= numBreaks) {
+          setPomoState(PomodoroState.LONG_BREAK);
+          setTime(longBreakTime * 60);
+          setBreaksUsed(0);
+        } else {
+          setPomoState(PomodoroState.SHORT_BREAK);
+          setTime(shortBreakTime * 60);
+        }
       }
     }
     return () => clearInterval(interval);
   }, [
     time,
     active,
-    breaks,
+    breaksUsed,
     pomoState,
     play,
     shortBreakTime,
     longBreakTime,
     pomoTime,
+    numBreaks,
   ]);
 
   const toggleTimer = () => {
@@ -132,6 +133,10 @@ function App() {
       setActive(false);
       setTime(pomoTime * 60);
     }
+  };
+
+  const handleBreaksChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNumBreaks(parseInt(e.target.value));
   };
 
   let themeStyle = "";
@@ -205,30 +210,43 @@ function App() {
           onSubmit={() => setIsSettingsOpen(false)}
         >
           <div>
-            <label htmlFor="minutes">Pomodoro time (minutes)</label>
+            <label htmlFor="pomo-minutes">Pomodoro time (minutes)</label>
             <input
-              id="minutes"
+              id="pomo-minutes"
               onChange={handlePomoTimeChange}
               type="number"
               value={pomoTime}
             ></input>
           </div>
           <div>
-            <label htmlFor="minutes">Short break time (minutes)</label>
+            <label htmlFor="short-break-minutes">
+              Short break time (minutes)
+            </label>
             <input
-              id="minutes"
+              id="short-break-minutes"
               onChange={handleShortBreakTimeChange}
               type="number"
               value={shortBreakTime}
             ></input>
           </div>
           <div>
-            <label htmlFor="minutes">Long break time (minutes)</label>
+            <label htmlFor="long-break-minutes">
+              Long break time (minutes)
+            </label>
             <input
-              id="minutes"
+              id="long-break-minutes"
               onChange={handleLongBreakTimeChange}
               type="number"
               value={longBreakTime}
+            ></input>
+          </div>
+          <div>
+            <label htmlFor="num-breaks">Breaks until long break</label>
+            <input
+              id="num-minutes"
+              onChange={handleBreaksChange}
+              type="number"
+              value={numBreaks}
             ></input>
           </div>
         </Modal>

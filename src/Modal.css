@@ -73,12 +73,9 @@
 
 @media (max-width: 768px) {
   .modal {
-    width: 500px;
-    top: calc(50% - 300px);
-    left: calc(50% - 250px);
-  }
-  .timer {
-    font-size: 7rem;
+    width: 100%;
+    top: 100px;
+    left: 0;
   }
 }
 
@@ -87,8 +84,5 @@
     width: 300px;
     top: calc(50% - 200px);
     left: calc(50% - 150px);
-  }
-  .timer {
-    font-size: 7rem;
   }
 }
