@@ -1,6 +1,5 @@
 import "./App.css";
 import React, { useState, useEffect } from "react";
-import { CSSTransition } from "react-transition-group";
 import { Modal } from "./Modal";
 
 import { pomo, sb, lb } from "./theme";
@@ -8,6 +7,7 @@ import { pomo, sb, lb } from "./theme";
 import styled, { ThemeProvider } from "styled-components";
 
 import useSound from "use-sound";
+import { Pomodoro, TimerSettingsForm } from "./components/TimerSettingsForm";
 const beep = require("./assets/tt.mp3");
 
 const DEFAULT_SHORT_BREAK_TIME = 5;
@@ -155,39 +155,6 @@ function App() {
     setActive(!active);
   };
 
-  const handlePomoTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newTime = parseInt(e.target.value);
-    if (newTime) {
-      setPomoTime(newTime);
-      if (!active && pomoState === PomodoroState.POMODORO) {
-        setTime(newTime * 60);
-      }
-    }
-  };
-  const handleShortBreakTimeChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const newTime = parseInt(e.target.value);
-    if (newTime) {
-      setShortBreakTime(newTime);
-      if (!active && pomoState === PomodoroState.SHORT_BREAK) {
-        setTime(newTime * 60);
-      }
-    }
-  };
-
-  const handleLongBreakTimeChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const newTime = parseInt(e.target.value);
-    if (newTime) {
-      setLongBreakTime(newTime);
-      if (!active && pomoState === PomodoroState.LONG_BREAK) {
-        setTime(newTime * 60);
-      }
-    }
-  };
-
   const handleShortBreakClicked = () => {
     if (pomoState !== PomodoroState.SHORT_BREAK) {
       setPomoState(PomodoroState.SHORT_BREAK);
@@ -214,8 +181,24 @@ function App() {
     }
   };
 
-  const handleBreaksChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNumBreaks(parseInt(e.target.value));
+  const handleSettingsChange = (pomo: Pomodoro) => {
+    const { breaks, shortBreakTime, longBreakTime, pomoTime } = pomo;
+    setNumBreaks(breaks);
+    setShortBreakTime(shortBreakTime);
+    setLongBreakTime(longBreakTime);
+    setPomoTime(pomoTime);
+
+    if (!active && pomoState === PomodoroState.POMODORO) {
+      setTime(pomoTime * 60);
+    }
+    if (!active && pomoState === PomodoroState.SHORT_BREAK) {
+      setTime(shortBreakTime * 60);
+    }
+    if (!active && pomoState === PomodoroState.LONG_BREAK) {
+      setTime(longBreakTime * 60);
+    }
+
+    setIsSettingsOpen(false);
   };
 
   const getTheme = (state: PomodoroState) => {
@@ -267,61 +250,21 @@ function App() {
             </button>
           </TimerContainer>
         </div>
-        <CSSTransition
-          classNames="modal"
-          in={isSettingsOpen}
-          onEnter={() => setIsSettingsOpen(true)}
-          onExit={() => setIsSettingsOpen(false)}
-          timeout={300}
-          unmountOnExit
-        >
           <Modal
             onClose={() => setIsSettingsOpen(false)}
-            onSubmit={() => setIsSettingsOpen(false)}
             title="timer settings"
+            open={isSettingsOpen}
           >
-            <div>
-              <label htmlFor="pomo-minutes">Pomodoro time (minutes)</label>
-              <input
-                id="pomo-minutes"
-                onChange={handlePomoTimeChange}
-                type="number"
-                value={pomoTime}
-              ></input>
-            </div>
-            <div>
-              <label htmlFor="short-break-minutes">
-                Short break time (minutes)
-              </label>
-              <input
-                id="short-break-minutes"
-                onChange={handleShortBreakTimeChange}
-                type="number"
-                value={shortBreakTime}
-              ></input>
-            </div>
-            <div>
-              <label htmlFor="long-break-minutes">
-                Long break time (minutes)
-              </label>
-              <input
-                id="long-break-minutes"
-                onChange={handleLongBreakTimeChange}
-                type="number"
-                value={longBreakTime}
-              ></input>
-            </div>
-            <div>
-              <label htmlFor="num-breaks">Breaks until long break</label>
-              <input
-                id="num-minutes"
-                onChange={handleBreaksChange}
-                type="number"
-                value={numBreaks}
-              ></input>
-            </div>
+            <TimerSettingsForm
+              pomodoro={{
+                pomoTime: pomoTime,
+                shortBreakTime: shortBreakTime,
+                longBreakTime: longBreakTime,
+                breaks: numBreaks,
+              }}
+              onSubmit={handleSettingsChange}
+            />
           </Modal>
-        </CSSTransition>
       </AppContanier>
     </ThemeProvider>
   );
