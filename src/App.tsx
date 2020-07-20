@@ -116,14 +116,25 @@ function App() {
     if (time === 3) {
       play();
     }
+    const getTitleText = () => {
+      switch (pomoState) {
+        case PomodoroState.POMODORO:
+          return "Work! 👷";
+        case PomodoroState.SHORT_BREAK:
+          return "Take a hort break 😎";
+        case PomodoroState.LONG_BREAK:
+          return "Take a long break 🎉";
+      }
+    };
     // TODO: no any
     let interval: any = null;
     if (time > 0 && active) {
       interval = setInterval(() => {
         const newTime = time - 1;
         setTime(newTime);
+
         setTitle(
-          `${Math.floor(newTime / 60)}:${
+          `${getTitleText()} ${Math.floor(newTime / 60)}:${
             newTime % 60 < 10 ? `0${newTime % 60}` : newTime % 60
           }`
         );
