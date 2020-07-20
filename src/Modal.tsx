@@ -3,16 +3,19 @@ import "./Modal.css";
 import { ReactComponent as CloseIcon } from "./close-line.svg";
 
 interface ModalProps {
-  open?: boolean;
+  open: boolean;
   children?: React.ReactNode;
   onClose: () => void;
-  onSubmit: () => void;
   title: string;
 }
 
 export const Modal = (props: ModalProps) => {
-  const { title, children, onClose, onSubmit } = props;
-  
+  const { title, children, onClose, open } = props;
+
+  if(!open) {
+    return null;
+  }
+
   return (
     <>
       <div className="modal" id="modal">
@@ -21,11 +24,6 @@ export const Modal = (props: ModalProps) => {
           <CloseIcon onClick={onClose} />
         </div>
         <div className="content">{children}</div>
-        <div className="actions">
-          <button onClick={onSubmit}>
-            Submit
-          </button>
-        </div>
       </div>
       <div className="modal-bg" onClick={onClose}></div>
     </>
