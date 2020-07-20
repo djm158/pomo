@@ -109,6 +109,7 @@ function App() {
   const [longBreakTime, setLongBreakTime] = useState(DEFAULT_LONG_BREAK_TIME);
   const [pomoState, setPomoState] = useState(PomodoroState.POMODORO);
   const [breaksUsed, setBreaksUsed] = useState(0);
+  const [title, setTitle] = useState(document.title);
   const [play] = useSound(beep);
 
   useEffect(() => {
@@ -118,7 +119,15 @@ function App() {
     // TODO: no any
     let interval: any = null;
     if (time > 0 && active) {
-      interval = setInterval(() => setTime(time - 1), 1000);
+      interval = setInterval(() => {
+        const newTime = time - 1;
+        setTime(newTime);
+        setTitle(
+          `${Math.floor(newTime / 60)}:${
+            newTime % 60 < 10 ? `0${newTime % 60}` : newTime % 60
+          }`
+        );
+      }, 1000);
     } else if (time === 0 && active) {
       if (pomoState === PomodoroState.SHORT_BREAK) {
         setPomoState(PomodoroState.POMODORO);
@@ -149,7 +158,12 @@ function App() {
     longBreakTime,
     pomoTime,
     numBreaks,
+    title,
   ]);
+
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
 
   const toggleTimer = () => {
     setActive(!active);
