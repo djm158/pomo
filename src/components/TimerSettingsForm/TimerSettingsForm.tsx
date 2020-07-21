@@ -43,34 +43,39 @@ export const TimerSettingsForm = (props: TimerSettingsFormProps) => {
 
   return (
     <>
-      <div>
-        <label htmlFor="pomo-minutes">Pomodoro time (minutes)</label>
-        <input
-          id="pomo-minutes"
-          onChange={handlePomoTimeChange}
-          type="number"
-          value={pomoTime}
-        ></input>
+      <div className="time-section">
+        <div>
+          <label htmlFor="pomo-minutes">Pomodoro</label>
+          <input
+            id="pomo-minutes"
+            onChange={handlePomoTimeChange}
+            type="number"
+            value={pomoTime}
+          ></input>
+        </div>
+        <div>
+          <label htmlFor="short-break-minutes">
+            Short break 
+          </label>
+          <input
+            id="short-break-minutes"
+            onChange={handleShortBreakTimeChange}
+            type="number"
+            value={shortBreakTime}
+          ></input>
+        </div>
+        <div>
+          <label htmlFor="long-break-minutes">Long break</label>
+          <input
+            id="long-break-minutes"
+            onChange={handleLongBreakTimeChange}
+            type="number"
+            value={longBreakTime}
+          ></input>
+        </div>
       </div>
-      <div>
-        <label htmlFor="short-break-minutes">Short break time (minutes)</label>
-        <input
-          id="short-break-minutes"
-          onChange={handleShortBreakTimeChange}
-          type="number"
-          value={shortBreakTime}
-        ></input>
-      </div>
-      <div>
-        <label htmlFor="long-break-minutes">Long break time (minutes)</label>
-        <input
-          id="long-break-minutes"
-          onChange={handleLongBreakTimeChange}
-          type="number"
-          value={longBreakTime}
-        ></input>
-      </div>
-      <div>
+      <hr />
+      <div className="breaks">
         <label htmlFor="num-breaks">Breaks until long break</label>
         <input
           id="num-minutes"
@@ -79,7 +84,7 @@ export const TimerSettingsForm = (props: TimerSettingsFormProps) => {
           value={numBreaks}
         ></input>
       </div>
-      <div className="actions">
+      <div className="footer">
         <button
           onClick={() =>
             onSubmit({

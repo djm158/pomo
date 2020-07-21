@@ -52,5 +52,4 @@ To learn React, check out the [React documentation](https://reactjs.org/).
  * allow users to configure alert sounds
  * allow users to configure volume
  * test more functionality
- * set page title to time left so you can see it in the tab
  * see if transition can be encapsulated in the modal

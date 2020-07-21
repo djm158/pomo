@@ -1,3 +1,7 @@
+:root {
+  --modal-width: 400px;
+}
+
 .modal {
   background: white;
   border: 1px solid #ccc;
@@ -7,9 +11,9 @@
   visibility: visible;
   position: fixed;
   top: calc(50% - 400px);
-  left: calc(50% - 300px);
+  left: calc(50% - calc(var(--modal-width) / 2));
   height: 400px;
-  width: 600px;
+  width: var(--modal-width);
   z-index: 1050;
 }
 
@@ -40,7 +44,6 @@
   padding: 1rem;
 }
 
-
 .modal-bg {
   width: 100vw;
   height: 100vh;
@@ -54,16 +57,14 @@
 
 @media (max-width: 768px) {
   .modal {
-    width: 100%;
-    top: 100px;
-    left: 0;
+    top: calc(50% - 300px);
   }
 }
 
 @media (max-width: 400px) {
   .modal {
-    width: 300px;
+    width: 100%;
     top: calc(50% - 200px);
-    left: calc(50% - 150px);
+    left: 0;
   }
 }

@@ -1,13 +1,13 @@
 import "./App.css";
 import React, { useState, useEffect } from "react";
-import { Modal } from "./Modal";
+import { Modal } from "./components/Modal/Modal";
 
 import { pomo, sb, lb } from "./theme";
 
 import styled, { ThemeProvider } from "styled-components";
 
 import useSound from "use-sound";
-import { Pomodoro, TimerSettingsForm } from "./components/TimerSettingsForm";
+import { Pomodoro, TimerSettingsForm } from "./components/TimerSettingsForm/TimerSettingsForm";
 const beep = require("./assets/tt.mp3");
 
 const DEFAULT_SHORT_BREAK_TIME = 5;
@@ -95,6 +95,11 @@ const TimerTabs = styled.div`
   display: flex;
   width: 75%;
   justify-content: space-evenly;
+
+  @media (max-width: 400px) {
+    width: 100%;
+  }
+
 `;
 
 function App() {
