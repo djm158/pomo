@@ -7,8 +7,13 @@ import { pomo, sb, lb } from "./theme";
 import styled, { ThemeProvider } from "styled-components";
 
 import useSound from "use-sound";
-import { Pomodoro, TimerSettingsForm } from "./components/TimerSettingsForm/TimerSettingsForm";
+import {
+  Pomodoro,
+  TimerSettingsForm,
+} from "./components/TimerSettingsForm/TimerSettingsForm";
+
 const beep = require("./assets/tt.mp3");
+const Notification = require("react-web-notification").default;
 
 const DEFAULT_SHORT_BREAK_TIME = 5;
 const DEFAULT_LONG_BREAK_TIME = 15;
@@ -60,11 +65,14 @@ const Button = styled.button`
   color: #1d3557;
   border-radius: 4px;
   cursor: pointer;
-  outline: none;
   transition: 0.2s all;
   text-transform: capitalize;
   &:active {
     transform: scale(0.97);
+  }
+  &:focus {
+    outline: none;
+    filter: brightness(0.9);
   }
 `;
 
@@ -81,10 +89,9 @@ const StyledTabButton = styled.button<CustomButtonProps>`
   padding: 0.4rem;
   transition: background-color 0.2s ease-in;
 
-  &:active,
   &:focus {
     outline: none;
-    border: none;
+    filter: brightness(0.9)
   }
   &:hover {
     cursor: pointer;
@@ -99,8 +106,26 @@ const TimerTabs = styled.div`
   @media (max-width: 400px) {
     width: 100%;
   }
-
 `;
+
+const noop = () => {};
+
+const NOTIFICATION_OPTIONS =  {
+  lang: "en",
+  dir: "ltr",
+  sound: "", // no browsers supported https://developer.mozilla.org/en/docs/Web/API/notification/sound#Browser_compatibility
+};
+
+const getTitleTextFor = (state: PomodoroState) => {
+  switch (state) {
+    case PomodoroState.POMODORO:
+      return "Work! 👷";
+    case PomodoroState.SHORT_BREAK:
+      return "Take a short break 😎";
+    case PomodoroState.LONG_BREAK:
+      return "Take a long break 🎉";
+  }
+};
 
 function App() {
   const [time, setTime] = useState(DEFAULT_POMO_TIME * 60);
@@ -117,20 +142,15 @@ function App() {
   const [title, setTitle] = useState(document.title);
   const [play] = useSound(beep);
 
+  const [notificationsIgnored, setNotificationsIgnored] = useState(true);
+  const [notificationTitle, setNotificationTitle] = useState("Time to work");
+
   useEffect(() => {
     if (time === 3) {
       play();
     }
-    const getTitleText = () => {
-      switch (pomoState) {
-        case PomodoroState.POMODORO:
-          return "Work! 👷";
-        case PomodoroState.SHORT_BREAK:
-          return "Take a hort break 😎";
-        case PomodoroState.LONG_BREAK:
-          return "Take a long break 🎉";
-      }
-    };
+
+    const title = getTitleTextFor(pomoState);
     // TODO: no any
     let interval: any = null;
     if (time > 0 && active) {
@@ -139,12 +159,14 @@ function App() {
         setTime(newTime);
 
         setTitle(
-          `${getTitleText()} ${Math.floor(newTime / 60)}:${
+          `${title} ${Math.floor(newTime / 60)}:${
             newTime % 60 < 10 ? `0${newTime % 60}` : newTime % 60
           }`
         );
       }, 1000);
     } else if (time === 0 && active) {
+      setNotificationsIgnored(false);
+      setNotificationTitle(title);
       if (pomoState === PomodoroState.SHORT_BREAK) {
         setPomoState(PomodoroState.POMODORO);
         setTime(pomoTime * 60);
@@ -163,7 +185,10 @@ function App() {
         }
       }
     }
-    return () => clearInterval(interval);
+    return () => {
+      setNotificationsIgnored(true);
+      clearInterval(interval);
+    }
   }, [
     time,
     active,
@@ -183,6 +208,10 @@ function App() {
 
   const toggleTimer = () => {
     setActive(!active);
+  };
+
+  const handlePermissionDenied = () => {
+    setNotificationsIgnored(true);
   };
 
   const handleShortBreakClicked = () => {
@@ -280,21 +309,35 @@ function App() {
             </button>
           </TimerContainer>
         </div>
-          <Modal
-            onClose={() => setIsSettingsOpen(false)}
-            title="timer settings"
-            open={isSettingsOpen}
-          >
-            <TimerSettingsForm
-              pomodoro={{
-                pomoTime: pomoTime,
-                shortBreakTime: shortBreakTime,
-                longBreakTime: longBreakTime,
-                breaks: numBreaks,
-              }}
-              onSubmit={handleSettingsChange}
-            />
-          </Modal>
+        <Modal
+          onClose={() => setIsSettingsOpen(false)}
+          title="timer settings"
+          open={isSettingsOpen}
+        >
+          <TimerSettingsForm
+            pomodoro={{
+              pomoTime: pomoTime,
+              shortBreakTime: shortBreakTime,
+              longBreakTime: longBreakTime,
+              breaks: numBreaks,
+            }}
+            onSubmit={handleSettingsChange}
+          />
+        </Modal>
+        <Notification
+          ignore={notificationsIgnored}
+          notSupported={handlePermissionDenied}
+          onPermissionGranted={noop}
+          onPermissionDenied={handlePermissionDenied}
+          onShow={noop}
+          onClick={noop}
+          onClose={noop}
+          onError={noop}
+          options={NOTIFICATION_OPTIONS}
+          timeout={5000}
+          title={notificationTitle}
+          swRegistration={noop}
+        ></Notification>
       </AppContanier>
     </ThemeProvider>
   );

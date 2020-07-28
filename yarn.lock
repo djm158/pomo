@@ -3344,6 +3344,11 @@ core-js-pure@^3.0.0:
   resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.6.4.tgz#4bf1ba866e25814f149d4e9aaa08c36173506e3a"
   integrity sha512-epIhRLkXdgv32xIUFaaAry2wdxZYBi6bgM7cB136dzzXXa+dFyRLTZeLUJxnd8ShrmyVXBub63n2NHo2JAt8Cw==
 
+core-js@3:
+  version "3.6.5"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.6.5.tgz#7395dc273af37fb2e50e9bd3d9fe841285231d1a"
+  integrity sha512-vZVEEwZoIsI+vPEuoF9Iqf5H7/M3eeQqWlQnYa8FSKKePuYTf5MWnxb5SDAzCa60b3JBRS5g9b+Dq7b1y/RCrA==
+
 core-js@^2.4.0:
   version "2.6.11"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.11.tgz#38831469f9922bded8ee21c9dc46985e0399308c"
@@ -8874,6 +8879,13 @@ react-scripts@3.4.1:
     workbox-webpack-plugin "4.3.1"
   optionalDependencies:
     fsevents "2.1.2"
+
+react-web-notification@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/react-web-notification/-/react-web-notification-0.8.0.tgz#2dd9108f0c05534abacc26934ee684d4e2ce26b6"
+  integrity sha512-c9oJEBHyI8P6ymA6lOdUKeOiLH3XkcsvV3nNfMK0D0aXh47sTxoGZLQnw/qO32bm5CmS7k66FSwvQXnTaBoJ3g==
+  dependencies:
+    core-js "3"
 
 react@^16.13.1:
   version "16.13.1"

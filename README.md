@@ -48,7 +48,6 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 ## TODOS
  * refactor remaining css into styled components
- * show notifications when switching states
  * read settings from local storage
  * light/dark theme
  * allow users to configure alert sounds
