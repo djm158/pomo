@@ -15,6 +15,9 @@ import {
 const beep = require("./assets/tt.mp3");
 const Notification = require("react-web-notification").default;
 
+const DEFAULT_BREAKS = 4;
+const DEFAULT_VOLUME = 0.25;
+
 const DEFAULT_SHORT_BREAK_TIME = 5;
 const DEFAULT_LONG_BREAK_TIME = 15;
 const DEFAULT_POMO_TIME = 25;
@@ -22,7 +25,6 @@ const DEFAULT_POMO_TIME = 25;
 // const DEFAULT_POMO_TIME = 0.1;
 // const DEFAULT_SHORT_BREAK_TIME = 0.1;
 // const DEFAULT_LONG_BREAK_TIME = 0.1;
-const DEFAULT_BREAKS = 4;
 
 enum PomodoroState {
   POMODORO = "pomodoro",
@@ -140,10 +142,11 @@ function App() {
   const [pomoState, setPomoState] = useState(PomodoroState.POMODORO);
   const [breaksUsed, setBreaksUsed] = useState(0);
   const [title, setTitle] = useState(document.title);
-  const [play] = useSound(beep);
 
   const [notificationsIgnored, setNotificationsIgnored] = useState(true);
   const [notificationTitle, setNotificationTitle] = useState("Time to work");
+  const [volume, setVolume] = useState(DEFAULT_VOLUME);
+  const [play] = useSound(beep, { volume });
 
   useEffect(() => {
     if (time === 3) {
@@ -241,11 +244,12 @@ function App() {
   };
 
   const handleSettingsChange = (pomo: Pomodoro) => {
-    const { breaks, shortBreakTime, longBreakTime, pomoTime } = pomo;
+    const { breaks, shortBreakTime, longBreakTime, pomoTime, volume } = pomo;
     setNumBreaks(breaks);
     setShortBreakTime(shortBreakTime);
     setLongBreakTime(longBreakTime);
     setPomoTime(pomoTime);
+    setVolume(volume || DEFAULT_VOLUME)
 
     if (!active && pomoState === PomodoroState.POMODORO) {
       setTime(pomoTime * 60);
@@ -320,6 +324,7 @@ function App() {
               shortBreakTime: shortBreakTime,
               longBreakTime: longBreakTime,
               breaks: numBreaks,
+              volume
             }}
             onSubmit={handleSettingsChange}
           />

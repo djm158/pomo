@@ -7,6 +7,7 @@ export interface Pomodoro {
   shortBreakTime: number;
   longBreakTime: number;
   breaks: number;
+  volume?: number;
 }
 
 interface TimerSettingsFormProps {
@@ -20,6 +21,7 @@ export const TimerSettingsForm = (props: TimerSettingsFormProps) => {
   const [shortBreakTime, setShortBreakTime] = useState(pomodoro.shortBreakTime);
   const [longBreakTime, setLongBreakTime] = useState(pomodoro.longBreakTime);
   const [numBreaks, setNumBreaks] = useState(pomodoro.breaks);
+  const [volume, setVolume] = useState(pomodoro.volume || 0.25);
 
   const handlePomoTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPomoTime(parseInt(e.target.value));
@@ -41,6 +43,10 @@ export const TimerSettingsForm = (props: TimerSettingsFormProps) => {
     setNumBreaks(parseInt(e.target.value));
   };
 
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setVolume(parseFloat(e.target.value));
+  };
+
   return (
     <>
       <div className="time-section">
@@ -54,9 +60,7 @@ export const TimerSettingsForm = (props: TimerSettingsFormProps) => {
           ></input>
         </div>
         <div>
-          <label htmlFor="short-break-minutes">
-            Short break 
-          </label>
+          <label htmlFor="short-break-minutes">Short break</label>
           <input
             id="short-break-minutes"
             onChange={handleShortBreakTimeChange}
@@ -84,6 +88,17 @@ export const TimerSettingsForm = (props: TimerSettingsFormProps) => {
           value={numBreaks}
         ></input>
       </div>
+      <hr />
+      <label htmlFor="volume">Volume</label>
+      <input
+        id="volume"
+        min="0"
+        max="1.0"
+        onChange={handleVolumeChange}
+        step="0.05"
+        type="range"
+        value={volume}
+      ></input>
       <div className="footer">
         <button
           onClick={() =>
@@ -92,6 +107,7 @@ export const TimerSettingsForm = (props: TimerSettingsFormProps) => {
               shortBreakTime,
               longBreakTime,
               pomoTime,
+              volume,
             })
           }
         >

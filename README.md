@@ -51,6 +51,6 @@ To learn React, check out the [React documentation](https://reactjs.org/).
  * read settings from local storage
  * light/dark theme
  * allow users to configure alert sounds
- * allow users to configure volume
  * test more functionality
- * see if transition can be encapsulated in the modal
+ * add css transition encapsulated in the modal
+ * track number of pomodoros completed
