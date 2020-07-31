@@ -1,6 +1,7 @@
 import "./App.css";
 import React, { useState, useEffect } from "react";
 import { Modal } from "./components/Modal/Modal";
+import { Timer } from "./components/Timer/Timer";
 
 import { pomo, sb, lb } from "./theme";
 
@@ -11,6 +12,7 @@ import {
   Pomodoro,
   TimerSettingsForm,
 } from "./components/TimerSettingsForm/TimerSettingsForm";
+import { PomodoroState } from "./model";
 
 const beep = require("./assets/tt.mp3");
 const Notification = require("react-web-notification").default;
@@ -26,36 +28,11 @@ const DEFAULT_POMO_TIME = 25;
 // const DEFAULT_SHORT_BREAK_TIME = 0.1;
 // const DEFAULT_LONG_BREAK_TIME = 0.1;
 
-enum PomodoroState {
-  POMODORO = "pomodoro",
-  SHORT_BREAK = "short-break",
-  LONG_BREAK = "long-break",
-}
-
 const AppContanier = styled.div`
   transition: background-color 0.2s ease-in;
   height: 100vh;
   overflow-y: hidden;
   background-color: ${(props) => props.theme.primary};
-`;
-
-const TimerContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 4px;
-  width: 500px;
-  height: 320px;
-  justify-content: center;
-  padding: 1.5rem;
-  transition: background-color 0.2s ease-in;
-  background-color: ${(props) => props.theme.secondary};
-  @media (max-width: 768px) {
-    width: 400px;
-  }
-  @media (max-width: 400px) {
-    width: 100%;
-  }
 `;
 
 const Button = styled.button`
@@ -78,41 +55,9 @@ const Button = styled.button`
   }
 `;
 
-interface CustomButtonProps {
-  selected: boolean;
-}
-
-const StyledTabButton = styled.button<CustomButtonProps>`
-  background-color: ${(props) =>
-    props.selected ? props.theme.tertiary : "transparent"};
-  border: none;
-  font-size: 18px;
-  border-radius: 4px;
-  padding: 0.4rem;
-  transition: background-color 0.2s ease-in;
-
-  &:focus {
-    outline: none;
-    filter: brightness(0.9)
-  }
-  &:hover {
-    cursor: pointer;
-  }
-`;
-
-const TimerTabs = styled.div`
-  display: flex;
-  width: 75%;
-  justify-content: space-evenly;
-
-  @media (max-width: 400px) {
-    width: 100%;
-  }
-`;
-
 const noop = () => {};
 
-const NOTIFICATION_OPTIONS =  {
+const NOTIFICATION_OPTIONS = {
   lang: "en",
   dir: "ltr",
   sound: "", // no browsers supported https://developer.mozilla.org/en/docs/Web/API/notification/sound#Browser_compatibility
@@ -191,7 +136,7 @@ function App() {
     return () => {
       setNotificationsIgnored(true);
       clearInterval(interval);
-    }
+    };
   }, [
     time,
     active,
@@ -249,7 +194,7 @@ function App() {
     setShortBreakTime(shortBreakTime);
     setLongBreakTime(longBreakTime);
     setPomoTime(pomoTime);
-    setVolume(volume || DEFAULT_VOLUME)
+    setVolume(volume || DEFAULT_VOLUME);
 
     if (!active && pomoState === PomodoroState.POMODORO) {
       setTime(pomoTime * 60);
@@ -282,36 +227,15 @@ function App() {
           <Button onClick={() => setIsSettingsOpen(true)}>settings</Button>
         </nav>
         <div className="main">
-          <TimerContainer>
-            <TimerTabs>
-              <StyledTabButton
-                selected={pomoState === PomodoroState.POMODORO}
-                onClick={handlePomoClicked}
-              >
-                Pomodoro
-              </StyledTabButton>
-              <StyledTabButton
-                selected={pomoState === PomodoroState.SHORT_BREAK}
-                onClick={handleShortBreakClicked}
-              >
-                Short Break
-              </StyledTabButton>
-              <StyledTabButton
-                selected={pomoState === PomodoroState.LONG_BREAK}
-                onClick={handleLongBreakClicked}
-              >
-                Long Break
-              </StyledTabButton>
-            </TimerTabs>
-            <p className="timer">
-              {Math.floor(time / 60)}
-              <span className="colon">:</span>
-              {time % 60 < 10 ? `0${time % 60}` : time % 60}
-            </p>
-            <button className="start" onClick={toggleTimer}>
-              {active ? "Stop" : "Start"}
-            </button>
-          </TimerContainer>
+          <Timer
+            pomoState={pomoState}
+            active={active}
+            toggleTimer={toggleTimer}
+            handlePomoClicked={handlePomoClicked}
+            handleLongBreakClicked={handleLongBreakClicked}
+            handleShortBreakClicked={handleShortBreakClicked}
+            time={time}
+          ></Timer>
         </div>
         <Modal
           onClose={() => setIsSettingsOpen(false)}
@@ -324,7 +248,7 @@ function App() {
               shortBreakTime: shortBreakTime,
               longBreakTime: longBreakTime,
               breaks: numBreaks,
-              volume
+              volume,
             }}
             onSubmit={handleSettingsChange}
           />
@@ -349,3 +273,4 @@ function App() {
 }
 
 export default App;
+  
