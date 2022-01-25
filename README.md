@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/djm158/pomo.svg?branch=master)](https://travis-ci.org/djm158/pomo)
+[![Build Status](https://app.travis-ci.com/djm158/pomo.svg?branch=master)](https://app.travis-ci.com/djm158/pomo)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
