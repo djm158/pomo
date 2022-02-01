@@ -2,7 +2,7 @@ import "./App.css";
 import React, { useState, useEffect } from "react";
 import { Modal } from "./components/Modal/Modal";
 
-import { pomo, sb, lb } from "./theme";
+import { pomo, shortBreak, longBreak } from "./theme";
 
 import styled, { ThemeProvider } from "styled-components";
 
@@ -111,6 +111,7 @@ const TimerTabs = styled.div`
 `;
 
 const noop = () => {};
+const emptyObject = {}
 
 const NOTIFICATION_OPTIONS =  {
   lang: "en",
@@ -268,9 +269,9 @@ function App() {
     if (state === PomodoroState.POMODORO) {
       return pomo;
     } else if (state === PomodoroState.SHORT_BREAK) {
-      return sb;
+      return shortBreak;
     } else {
-      return lb;
+      return longBreak;
     }
   };
   const theme = getTheme(pomoState);
@@ -341,7 +342,7 @@ function App() {
           options={NOTIFICATION_OPTIONS}
           timeout={5000}
           title={notificationTitle}
-          swRegistration={noop}
+          swRegistration={emptyObject}
         ></Notification>
       </AppContanier>
     </ThemeProvider>

@@ -5,14 +5,14 @@ export const pomo = {
   fontPrimary: "#1d3557"
 }
 
-export const sb = {
+export const shortBreak = {
   primary: "#a8dadc",
   secondary: "#c5e7e8",
   tertiary: "#8aced0",
   fontPrimary: "#1d3557"
 }
 
-export const lb = {
+export const longBreak = {
   primary: "#457b9d",
   secondary: "#71a2c1",
   tertiary: "#5590b4",
